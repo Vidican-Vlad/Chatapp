@@ -1,0 +1,4 @@
+GET http://localhost:3333/users
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjI0LCJpYXQiOjE2MTg3NzM1OTh9.KED1LsWqlCpli8-tT013PmOk_BHkO6tf8CmL-6JOQnQ

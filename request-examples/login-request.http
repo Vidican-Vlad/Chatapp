@@ -1,0 +1,6 @@
+// The request body is provided in place
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{ "username" : "test", "password": "password" }
