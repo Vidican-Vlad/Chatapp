@@ -15,11 +15,27 @@
 
 const Factory = use('Factory')
 
-Factory.blueprint('App/Models/User', (faker, i, data) => {
-  console.log(data);
+Factory.blueprint('App/Models/User', async (faker, i, data) => {
   return {
-    email: data.email || faker.email(),
-    username: data.username || faker.username(),
-    password: data.password || 'password',
+    email: faker.email(),
+    username: faker.username(),
+    password: 'password',
+    answer: faker.sentence({words: 3}),
+    ...data
+  }
+})
+
+Factory.blueprint('App/Models/Room', async (faker, i, data) => {
+  return {
+    name:  faker.word(),
+    ...data
+  }
+})
+
+Factory.blueprint('App/Models/Question', async (faker, i, data) => {
+
+  return {
+    text: faker.sentence({words: 3}),
+    ...data
   }
 })

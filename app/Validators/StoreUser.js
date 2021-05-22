@@ -6,7 +6,9 @@ class StoreUser {
       email: "required|email|unique:users",
       username: "required|unique:users",
       password: "required|min:6|confirmed",
-      password_confirmation: "required|min:6"
+      password_confirmation: "required|min:6",
+      // question_id: 'required|exists:questions,id',
+      // answer: 'required|min:5|max:100'
     };
   }
 }
