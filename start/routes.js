@@ -37,7 +37,9 @@ Route.get("user-rooms", "UserRoomsController.index").middleware("auth");
 Route.get("room-messages/:id", "UserRoomsController.messages").middleware(
   "auth"
 );
-Route.post("add-friend", "FriendController.addFriend").middleware("auth");
+Route.post("send-friend-request", "FriendController.sendFriendRequest").middleware("auth");
+Route.post("accept-friend-request", "FriendController.acceptFriendRequest").middleware("auth");
+Route.post("reject-friend-request", "FriendController.rejectFriendRequest").middleware("auth");
 Route.post("remove-friend", "FriendController.removeFriend").middleware("auth");
 Route.get("user-friends", "FriendController.getFriends").middleware("auth");
 Route.get("user-requests", "FriendController.getPendingReq").middleware("auth");
