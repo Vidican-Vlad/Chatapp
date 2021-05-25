@@ -54,8 +54,8 @@ Route.post(
 Route.post("remove-friend", "FriendController.removeFriend").middleware("auth");
 Route.get("user-friends", "FriendController.getFriends").middleware("auth");
 Route.get("user-requests", "FriendController.getPendingReq").middleware("auth");
-Route.post(
-  "get-potential-members",
+Route.get(
+  "get-potential-members/:roomId",
   "UserRoomsController.getFriendsNotInRoom"
 ).middleware("auth");
 Route.get("get-room-invites", "UserRoomsController.getRoomInvites").middleware(

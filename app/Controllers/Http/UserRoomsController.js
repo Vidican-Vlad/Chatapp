@@ -132,9 +132,9 @@ class UserRoomsController {
     return Friends2.concat(Friends1);
   }
 
-  async getFriendsNotInRoom({ request, auth }) {
+  async getFriendsNotInRoom({ request, auth, params }) {
     //not done yet, need to substract members from friends
-    const { roomId } = request.all();
+    const { roomId } = params;
     const friends = await this.__getFriends({ auth });
     const members = await Database.select("user_id as friend_id")
       .from("room_user")
@@ -149,6 +149,7 @@ class UserRoomsController {
     }
     return result;
   }
+
   async getRoomInvites({ auth }) {
     const user = await auth.getUser();
     const Invites = await Database.select("room_user.id", "name", "user_id")
@@ -158,6 +159,7 @@ class UserRoomsController {
       .where("status", 0);
     return Invites;
   }
+
   async sendRoomInvite({ request, auth }) {
     //not done yetn
     const { roomId, friendId } = request.all();
@@ -173,6 +175,7 @@ class UserRoomsController {
     console.log(id);
     await Database.table("room_user").where("id", id).update("status", 1);
   }
+
   async rejectRoomRequest({ request, auth }) {
     const { id } = request.all();
     console.log(id);
