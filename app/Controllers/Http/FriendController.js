@@ -6,7 +6,7 @@ const Friend = use("App/Models/Friend");
 const User = use("App/Models/User");
 
 class FriendController {
-  async getFriends({auth, request}) {
+  async getFriends({ auth }) {
     const user = await auth.getUser();
     // const Friends = (await user.friends().with("userTwo").fetch()).toJSON().filter(friendship => friendship.status === 1);
     // return Friends.map((friendRelation) => ({

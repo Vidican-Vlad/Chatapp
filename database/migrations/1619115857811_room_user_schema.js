@@ -9,6 +9,7 @@ class RoomUserSchema extends Schema {
       table.increments()
       table.integer('user_id').unsigned().references('id').inTable('users')
       table.integer('room_id').unsigned().references('id').inTable('rooms')
+      table.integer("status").usigned().default(1)
       table.timestamps()
     })
   }
