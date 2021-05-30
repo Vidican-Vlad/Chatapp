@@ -1,8 +1,9 @@
 "use strict";
-const Message = use("App/Models/Message");
-const Room = use("App/Models/Room");
 
-class ChatController {
+const Message = use("App/Models/Message");
+const Friend = use("App/Models/Friend");
+
+class DMController {
   constructor({ socket, request }) {
     this.socket = socket;
     this.request = request;
@@ -13,33 +14,35 @@ class ChatController {
     this.socket.broadcastToAll("message", savedMessage);
   }
 
-  __getRoomIdFromTopic() {
+  __getFriendshipIdFromTopic() {
     const topic = this.socket.topic;
-    const roomId = topic.substring(topic.indexOf(":") + 1);
-    return parseInt(roomId, 10);
+    const friendshipId = topic.substring(topic.indexOf(":") + 1);
+    return parseInt(friendshipId, 10);
   }
 
-  __getRoomIfExists() {
-    return Room.findOrFail(this.__getRoomIdFromTopic());
+  __getFriendshipIfExists() {
+    return Friend.findOrFail(this.__getFriendshipIdFromTopic());
   }
 
   async __saveMessage(receivedMessage) {
     const message = new Message();
-    const room = await this.__getRoomIfExists();
+    const friendship = await this.__getFriendshipIfExists();
 
     message.fill({
       content: receivedMessage.message,
       sender_id: parseInt(receivedMessage.senderId, 10),
-      receiver_id: this.__getRoomIdFromTopic(),
-      receiver_type: "App/Models/Room",
+      receiver_id: this.__getFriendshipIdFromTopic(),
+      receiver_type: "App/Models/Friend",
     });
 
-    await room.messages().save(message);
+    await friendship.messages().save(message);
 
     await message.load("sender");
+
+    console.log(message);
 
     return message;
   }
 }
 
-module.exports = ChatController;
+module.exports = DMController;

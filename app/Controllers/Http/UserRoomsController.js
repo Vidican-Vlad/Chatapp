@@ -53,8 +53,8 @@ class UserRoomsController {
   }
 
   async leaveRoom({ request, auth }) {
-    const { name } = request.all();
-    const room = await Room.findByOrFail("name", name);
+    const { id } = request.all();
+    const room = await Room.findOrFail(id);
     const user = await auth.getUser();
     if (user.id === room.owner_id) {
       await Database.table("rooms")
@@ -75,19 +75,27 @@ class UserRoomsController {
     return room.owner_id === user.id;
   }
 
-  async getMembers({ request }) {
+  async getMembers({ params }) {
     // should be done
-    const { room_id } = request.all();
+    const { roomId } = params;
     const SimpleMembers = await Database.select(
       "user_id",
       "username",
       "room_id"
     )
-      .table("room_user")
-      .innerJoin("users", "user_id", "id");
-    const Owner = await Database.select("user_id", "username", "room_id")
-      .table("room_user")
-      .innerJoin("users", "owner_id", "id");
+      .from("room_user")
+      .innerJoin("users", "user_id", "users.id")
+      .where("status", 1)
+      .where("room_id", roomId);
+    const Owner = await Database.select(
+      "owner_id as user_id",
+      "username",
+      "rooms.id as room_id"
+    )
+      .from("rooms")
+      .innerJoin("users", "owner_id", "users.id")
+      .where("rooms.id", roomId);
+
     return Owner.concat(SimpleMembers);
   }
 
@@ -132,7 +140,7 @@ class UserRoomsController {
     return Friends2.concat(Friends1);
   }
 
-  async getFriendsNotInRoom({ request, auth, params }) {
+  async getFriendsNotInRoom({ auth, params }) {
     //not done yet, need to substract members from friends
     const { roomId } = params;
     const friends = await this.__getFriends({ auth });

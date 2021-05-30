@@ -39,6 +39,7 @@ Route.get("user-rooms", "UserRoomsController.index").middleware("auth");
 Route.get("room-messages/:id", "UserRoomsController.messages").middleware(
   "auth"
 );
+Route.get("dm-messages/:id", "FriendController.messages").middleware("auth");
 Route.post(
   "send-friend-request",
   "FriendController.sendFriendRequest"
@@ -61,6 +62,7 @@ Route.get(
 Route.get("get-room-invites", "UserRoomsController.getRoomInvites").middleware(
   "auth"
 );
+Route.get("get-group-members/:roomId", "USerRoomsController.getMembers");
 Route.post(
   "accept-room-invite",
   "UserRoomsController.acceptRoomRequest"
