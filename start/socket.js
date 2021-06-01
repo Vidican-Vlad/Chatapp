@@ -16,6 +16,7 @@
 const Ws = use("Ws");
 
 Ws.channel("chat:*", "ChatController");
+Ws.channel("dm:*", "DMController");
 
 // Ws.channel("chat:*", ({ socket }) => {
 //   console.log(socket.topic);
